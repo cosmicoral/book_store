@@ -12,3 +12,7 @@ class BookRepository:
             books.append(Book(row["id"], row["title"], row["author_name"]))
         
         return books
+    
+    def create(self, book):
+        self._connection.execute("INSERT INTO books(title,author_name) VALUES (%s, %s)",
+                                [book.title, book.author_name])

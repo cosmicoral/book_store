@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title>Books</title>
+    <title>Films</title>
     <link rel="stylesheet" href="/static/styles.css">
     </head>
 
     <body>
-    <h1>Books</h1>
+    <h1>Films</h1>
 
     <ul>
-    {% for book in books %}
-        <li>{{ book.title }} - {{ book.author_name }}</li>
+    {% for film in films %}
+        <li>{{ film.title }} - {{ film.director}}</li>
     {% endfor %}
     </ul>
-    <form method="POST" action="/books">
+    <form method="POST" action="/films">
 
     <input type="text"
         name="title"
         placeholder="Title">
 
     <input type="text"
-        name="author_name"
-        placeholder="Author">
+        name="director"
+        placeholder="Director">
+
+    <input type="text"
+        name="release_year"
+        placeholder="Release Year">
 
     <input type="submit"
         value="Submit">
@@ -29,4 +33,3 @@
     </form>
     </body>
 </html> 
-
