@@ -14,5 +14,6 @@ class BookRepository:
         return books
     
     def create(self, book):
-        self._connection.execute("INSERT INTO books(title,author_name) VALUES (%s, %s)",
-                                [book.title, book.author_name])
+        self._connection.execute(
+        "INSERT INTO books(title, author_name) VALUES (%s, %s)",
+        [book.title, book.author_name])

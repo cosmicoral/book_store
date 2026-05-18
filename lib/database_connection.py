@@ -10,10 +10,11 @@ import os
 class DatabaseConnection:
     DATABASE_NAME = os.getenv(
     "DATABASE_NAME",
-    "book_store_test") 
+    "book_store") 
     DATABASE_HOST = os.getenv(
     "DATABASE_HOST",
-    "yuhan@localhost")# <-- CHANGE THIS!
+    "book_store_db"
+)# <-- CHANGE THIS!
 
     def __init__(self):
         self.connection = None
@@ -23,7 +24,7 @@ class DatabaseConnection:
     def connect(self):
         try:
             self.connection = psycopg.connect(
-                f"postgresql://{self.DATABASE_HOST}/{self.DATABASE_NAME}",
+                f"postgresql://postgres:password@{self.DATABASE_HOST}/{self.DATABASE_NAME}",
                 row_factory=dict_row)
         except psycopg.OperationalError:
             raise Exception(f"Couldn't connect to the database {self.DATABASE_NAME}."
