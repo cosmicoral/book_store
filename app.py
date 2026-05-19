@@ -4,6 +4,8 @@ from lib.book_repository import BookRepository
 from lib.book import Book
 from lib.film_repository import FilmRepository
 from lib.film import Film
+from lib.user import User
+from lib.user_repository import UserRepository
 
 # instantiate a Flask app object
 app = Flask(__name__)
@@ -21,9 +23,26 @@ def index():
 def hello():
     return "Hello to you too"
 
-@app.route('/hello', methods=['GET'])
-def hello_again():
-    return "Hello, hello and hello again!"
+
+@app.route('/users/new')
+def get_new_user():
+    return render_template('signup_form.html')
+
+@app.route('/users', methods=['POST'])
+def create_user():
+
+    user_repository = UserRepository(connection)
+
+    user_details = request.form
+
+    user = User(
+        username=user_details["username"],
+        password=user_details["password"]
+    )
+
+    user_repository.create(user)
+
+    return redirect("/books")
 
 @app.route('/books', methods=['GET'])
 def books():

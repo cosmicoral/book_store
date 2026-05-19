@@ -13,7 +13,7 @@ class DatabaseConnection:
     "book_store") 
     DATABASE_HOST = os.getenv(
     "DATABASE_HOST",
-    "book_store_db"
+    "localhost"
 )# <-- CHANGE THIS!
 
     def __init__(self):
@@ -24,7 +24,7 @@ class DatabaseConnection:
     def connect(self):
         try:
             self.connection = psycopg.connect(
-                f"postgresql://postgres:password@{self.DATABASE_HOST}/{self.DATABASE_NAME}",
+                f"postgresql://yuhan@{self.DATABASE_HOST}/{self.DATABASE_NAME}",
                 row_factory=dict_row)
         except psycopg.OperationalError:
             raise Exception(f"Couldn't connect to the database {self.DATABASE_NAME}."

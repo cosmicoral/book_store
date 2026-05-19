@@ -15,8 +15,17 @@ CREATE TABLE books (
     author_name VARCHAR(255)
 );
 
--- Finally, we add any records that are needed for the tests to run
+-- Then, we add any records that are needed for the tests to run
 INSERT INTO books (title, author_name) VALUES ('The Gruffalo', 'Julia Donaldson');
 INSERT INTO books (title, author_name) VALUES ('Ada Twist, Scientist', 'Andrea Beaty');
 INSERT INTO books (title, author_name) VALUES ('The Girl Who Drank the Moon', 'Kelly Barnhill');
 INSERT INTO books (title, author_name) VALUES ('Dragons in a Bag', 'Zetta Elliott');
+
+-- Finally, we add the user login information
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username text,
+    password text
+);
