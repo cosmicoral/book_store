@@ -5,7 +5,10 @@ class BookRepository:
         self._connection = connection
 
     def all(self):
-        rows = self._connection.execute("SELECT * FROM books")
+        cursor = self._connection.cursor()
+        cursor.execute("SELECT * FROM books")
+
+        rows = cursor.fetchall()
     
         books = []
         for row in rows:
@@ -14,6 +17,7 @@ class BookRepository:
         return books
     
     def create(self, book):
-        self._connection.execute(
+        cursor = self._connection.cursor()
+        cursor.execute(
         "INSERT INTO books(title, author_name) VALUES (%s, %s)",
         [book.title, book.author_name])
