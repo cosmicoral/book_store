@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    author_name VARCHAR(255)
+);
+
 TRUNCATE TABLE books;
 
 INSERT INTO books (title, author_name)
