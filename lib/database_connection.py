@@ -11,8 +11,13 @@ class DatabaseConnection:
 
     DATABASE_HOST = os.getenv(
         "DATABASE_HOST",
-        "localhost"
-    )
+        "book_store_db"
+)
+    # old one:
+    # DATABASE_HOST = os.getenv(
+    #     "DATABASE_HOST",
+    #     "localhost"
+    # )
 
     DATABASE_USER = os.getenv(
         "DATABASE_USER",
