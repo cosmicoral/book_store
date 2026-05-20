@@ -53,7 +53,7 @@ jobs:
                 -d postgres:17
               sleep 10
 
-              docker exec -i book_store_db psql -U postgres -d book_store < ~/book_store/seeds/book_store.sql
+            cat ~/book_store/seeds/book_store.sql | docker exec -i book_store_db psql -U postgres -d book_store
             fi
 
       - name: Build Docker image
