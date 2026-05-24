@@ -30,11 +30,8 @@ def get_new_user():
 
 @app.route('/users', methods=['POST'])
 def create_user():
-
     user_repository = UserRepository(connection)
-
     user_details = request.form
-
     user = User(
         username=user_details["username"],
         password=user_details["password"]
