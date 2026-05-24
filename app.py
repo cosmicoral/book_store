@@ -6,6 +6,7 @@ from lib.film_repository import FilmRepository
 from lib.film import Film
 from lib.user import User
 from lib.user_repository import UserRepository
+from lib.login_required import login_required
 
 # instantiate a Flask app object
 app = Flask(__name__)
@@ -37,9 +38,7 @@ def create_user():
         username=user_details["username"],
         password=user_details["password"]
     )
-
     user_repository.create(user)
-
     return redirect("/books")
 
 @app.route("/login", methods=["GET"])
@@ -54,7 +53,11 @@ def create_session():
     user_repository = UserRepository(connection)
     user = user_repository.find_by_username(username)
 
-    if user is not None and user.password == password:
+    if user is None:
+        return redirect("/users/new")
+    
+    if user.password == password:
+        session["user_id"] = user.id
         session["username"] = user.username
         return redirect("/books")
 
@@ -71,6 +74,7 @@ def new_book():
     return render_template("new_book.html")
 
 @app.route("/books", methods = ["POST"])
+@login_required
 def create_book():
     book_details = request.form
     title = book_details["title"]
