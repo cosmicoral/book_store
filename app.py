@@ -1,5 +1,5 @@
 from lib.database_connection import DatabaseConnection
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect,  session
 from lib.book_repository import BookRepository
 from lib.book import Book
 from lib.film_repository import FilmRepository
@@ -9,6 +9,7 @@ from lib.user_repository import UserRepository
 
 # instantiate a Flask app object
 app = Flask(__name__)
+app.secret_key = "some_really_secret_key"
 connection = DatabaseConnection()
 connection.connect()
 
@@ -40,6 +41,24 @@ def create_user():
     user_repository.create(user)
 
     return redirect("/books")
+
+@app.route("/login", methods=["GET"])
+def get_login():
+    return render_template("login_form.html")
+
+
+@app.route("/sessions", methods=["POST"])
+def create_session():
+    username = request.form["username"]
+    password = request.form["password"]
+    user_repository = UserRepository(connection)
+    user = user_repository.find_by_username(username)
+
+    if user is not None and user.password == password:
+        session["username"] = user.username
+        return redirect("/books")
+
+    return redirect("/login")
 
 @app.route('/books', methods=['GET'])
 def books():

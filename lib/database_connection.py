@@ -49,3 +49,15 @@ class DatabaseConnection:
             connection_string,
             row_factory=dict_row
         )
+
+    def execute(self, query, params=[]):
+        cursor = self.connection.cursor()
+
+        cursor.execute(query, params)
+
+        try:
+            rows = cursor.fetchall()
+            return rows
+        except:
+            self.connection.commit()
+            return None

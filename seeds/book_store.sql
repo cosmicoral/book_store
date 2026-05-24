@@ -29,3 +29,6 @@ CREATE TABLE users (
     username text,
     password text
 );
+
+INSERT INTO users (username, password)
+VALUES ('test_user', 'password123');
