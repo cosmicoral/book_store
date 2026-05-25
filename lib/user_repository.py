@@ -22,4 +22,4 @@ class UserRepository:
             return None
 
         row = rows[0]
-        return User(row["id"], row["username"], row["password"])
+        return User(row["username"], row["password"],row["id"])
