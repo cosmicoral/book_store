@@ -49,6 +49,10 @@ jobs:
           pip install -r requirements.txt
           playwright install chromium
 
+      - name: Seed database
+        run: |
+          psql -h 127.0.0.1 -U runner book_store_test -f seeds/book_store.sql
+
       - name: Run tests
 
         run: |
