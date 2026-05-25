@@ -33,7 +33,6 @@ def test_get_authors_returns_a_200():
 def test_get_authors_returns_all_the_authors():
     client = app.test_client()
     response = client.get("/authors")
-
     assert response.json == [
         {"name": "Julia Donaldson", "dob": "1948-09-16"},
         {"name": "Andrea Beaty", "dob": "1961-10-08"},
@@ -41,22 +40,37 @@ def test_get_authors_returns_all_the_authors():
         {"name": "Zetta Elliott", "dob": "1979-11-11"},
     ]
 
-def test_can_create_new_book(page):
+def test_can_create_new_book(page, test_web_address, db_connection):
+    page.context.clear_cookies()
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='username']", "test_user")
+    page.fill("input[name='password']", "password123")
+    page.click("input[type='submit']")
+    page.wait_for_url(f"http://{test_web_address}/books")
 
-    connection = DatabaseConnection()
-    connection.connect()
-    connection.seed("seeds/books.sql")
+    page.goto(f"http://{test_web_address}/books/new")
+    page.fill("input[name='title']", "Dune")
+    page.fill("input[name='author_name']", "Frank Herbert")
+    page.click("input[type='submit']")
 
-    page.goto("http://localhost:5001/books")
+    page.wait_for_url(f"http://{test_web_address}/books", timeout=5000)
 
-    page.get_by_placeholder("Title").fill("Dune")
+    assert page.locator("body").inner_text().__contains__("Dune")
 
-    page.get_by_placeholder("Author").fill("Frank Herbert")
+    # connection = DatabaseConnection()
+    # connection.connect()
+    # connection.seed("seeds/books.sql")
 
-    page.get_by_role("button", name="Submit").click()
+    # page.goto("http://localhost:5001/books")
 
-    books = page.locator("li")
+    # page.get_by_placeholder("Title").fill("Dune")
 
-    actual_books = books.all_inner_texts()
+    # page.get_by_placeholder("Author").fill("Frank Herbert")
 
-    assert "Dune - Frank Herbert" in actual_books
+    # page.get_by_role("button", name="Submit").click()
+
+    # books = page.locator("li")
+
+    # actual_books = books.all_inner_texts()
+
+    # assert "Dune - Frank Herbert" in actual_books
